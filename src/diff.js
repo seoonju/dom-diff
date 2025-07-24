@@ -6,7 +6,11 @@ const { Node } = root;
 
 function diffWorker (src, tar, { done }) {
   const worker = new DiffWorker();
-  worker.addEventListener('message', e => done(e.data));
+  worker.addEventListener('message', e => {
+    if (e.origin === 'trusted-origin.com') { // Replace 'trusted-origin.com' with the actual trusted origin
+      done(e.data);
+    }
+  });
   worker.postMessage([ src, tar ]);
 }
 
